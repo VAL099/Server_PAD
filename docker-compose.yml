@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+    Server_1:
+        image: server
+        ports: 
+            - "7100:7100"
+        environment:
+            db_port: 4404
+        entrypoint: [ "uvicorn", "server:server", "--port", "7100", "--host", "0.0.0.0"]
+    
+    Server_2:
+        image: server
+        ports: 
+            - "7200:7200"
+        environment:
+            db_port: 4406
+        entrypoint: [ "uvicorn", "server:server", "--port", "7200", "--host", "0.0.0.0"]
+    
+    DB_1:
+        image: mysql
+        ports: 
+            - "4404:3306"
+        environment: 
+            MYSQL_ROOT_PASSWORD: valeriy099
+
+    DB_2:
+        image: mysql
+        ports: 
+            - "4406:3306"
+        environment: 
+            MYSQL_ROOT_PASSWORD: valeriy099
+
