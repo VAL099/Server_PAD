@@ -1,1 +1,1 @@
-web: uvicorn server:server --workers 10
+web: uvicorn --workers 10 server:server
