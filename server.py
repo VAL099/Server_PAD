@@ -5,7 +5,8 @@ import const, models, handlers, os
 
 server = FastAPI()
 
-db = msql.connect(host = 'host.docker.internal', port = os.getenv('db_port'), user = const.DB_USERNAME, password = const.DB_PASSWORD, database = 'll2_pad') # connect to db
+db = msql.connect(host = 'spryrr1myu6oalwl.chr7pe7iynqr.eu-west-1.rds.amazonaws.com', port = '3306', user = 'oyqw7racyiwryzq3', 
+                    password = 'v9rfrsbqk1om7rwe', database = 'i9ihdbgoe8d4no07')
 cursor = db.cursor()
 
 @server.get('/')
