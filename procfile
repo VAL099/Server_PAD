@@ -1,1 +1,1 @@
-web: uvicorn main:server --host https://pad-server1.herokuapp.com/
+web: uvicorn main:server --host "https://pad-server1.herokuapp.com/"
