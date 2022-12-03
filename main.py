@@ -3,17 +3,17 @@ from fastapi import FastAPI, Response, Header, HTTPException
 import mysql.connector as msql
 import const, models, handlers, os
 
-server = FastAPI()
+app = FastAPI()
 
 db = msql.connect(host = 'spryrr1myu6oalwl.chr7pe7iynqr.eu-west-1.rds.amazonaws.com', port = '3306', user = 'oyqw7racyiwryzq3', 
                     password = 'v9rfrsbqk1om7rwe', database = 'i9ihdbgoe8d4no07')
 cursor = db.cursor()
 
-@server.get('/')
+@app.get('/')
 async def home():
     return {'message':'Welcome!'}
 
-@server.get('/adv/all')
+@app.get('/adv/all')
 async def get_all(authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         return_data = []
@@ -28,7 +28,7 @@ async def get_all(authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.get('/adv/category')
+@app.get('/adv/category')
 async def get_by_categories(c, authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         return_data = []
@@ -43,7 +43,7 @@ async def get_by_categories(c, authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.get('/adv/categories')
+@app.get('/adv/categories')
 async def get_all_categories(authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         cursor.execute('SELECT category from adverts')
@@ -52,7 +52,7 @@ async def get_all_categories(authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.get('/adv/id')
+@app.get('/adv/id')
 async def get_by_id(adv_id, authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         cursor.execute(f'SELECT * FROM adverts where id = {adv_id}')
@@ -64,7 +64,7 @@ async def get_by_id(adv_id, authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.post('/adv/post')
+@app.post('/adv/post')
 async def post_advert(item: models.Advert, authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         query = "INSERT INTO adverts (category, title, description, price) VALUES (%s, %s, %s, %s)"
@@ -74,7 +74,7 @@ async def post_advert(item: models.Advert, authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.patch('/adv/patch')
+@app.patch('/adv/patch')
 async def patch_advert(adv_id, item:dict, authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         to_upd = ''; data = ()
@@ -88,7 +88,7 @@ async def patch_advert(adv_id, item:dict, authorisation_token:str = Header()):
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
 
-@server.delete('/adv/rm')
+@app.delete('/adv/rm')
 async def remove_advert(adv_id, authorisation_token:str = Header()):
     if authorisation_token == const.AUTH_TOKEN:
         cursor.execute(f'DELETE FROM adverts where id = {adv_id}'); db.commit()
