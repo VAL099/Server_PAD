@@ -95,3 +95,5 @@ async def remove_advert(adv_id, authorisation_token:str = Header()):
         return Response(status_code = 204)
     else: 
         raise HTTPException(status_code = 404, detail='Wrong Authentication!')
+
+# new coomn
